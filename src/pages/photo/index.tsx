@@ -4,13 +4,13 @@ import Header from '../../components/header'
 import blogStyles from '../../styles/blog.module.css'
 import sharedStyles from '../../styles/shared.module.css'
 
-import { getBlogLink, getDateStr, postIsReady } from '../../lib/blog-helpers'
+import { getPostLink, getDateStr, postIsReady } from '../../lib/blog-helpers'
 import { textBlock } from '../../lib/notion/renderers'
 import getNotionUsers from '../../lib/notion/getNotionUsers'
-import getBlogIndex from '../../lib/notion/getBlogIndex'
+import getPhotoIndex from '../../lib/notion/getPhotoIndex'
 
 export async function unstable_getStaticProps() {
-  const postsTable = await getBlogIndex()
+  const postsTable = await getPhotoIndex()
 
   const authorsToGet: Set<string> = new Set()
   const posts: any[] = Object.keys(postsTable)
@@ -55,7 +55,7 @@ export default ({ posts = [] }) => {
           return (
             <div className={blogStyles.postPreview} key={post.Slug}>
               <h3>
-                <Link href="/blog/[slug]" as={getBlogLink(post.Slug)}>
+                <Link href="/photo/[slug]" as={getPostLink('photo', post.Slug)}>
                   <a>{post.Page}</a>
                 </Link>
               </h3>

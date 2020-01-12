@@ -7,14 +7,14 @@ import ReactJSXParser from '@zeit/react-jsx-parser'
 import blogStyles from '../../styles/blog.module.css'
 import { textBlock } from '../../lib/notion/renderers'
 import getPageData from '../../lib/notion/getPageData'
-import getBlogIndex from '../../lib/notion/getBlogIndex'
+import getPhotoIndex from '../../lib/notion/getPhotoIndex'
 import getNotionUsers from '../../lib/notion/getNotionUsers'
-import { getBlogLink, getDateStr } from '../../lib/blog-helpers'
+import { getPostLink, getDateStr } from '../../lib/blog-helpers'
 
 // Get the data for each blog post
 export async function unstable_getStaticProps({ params: { slug } }) {
   // load the postsTable so that we can get the page's ID
-  const postsTable = await getBlogIndex()
+  const postsTable = await getPhotoIndex()
   const post = postsTable[slug]
 
   if (!post) {
@@ -42,8 +42,8 @@ export async function unstable_getStaticProps({ params: { slug } }) {
 
 // Return our list of blog posts to prerender
 export async function unstable_getStaticPaths() {
-  const postsTable = await getBlogIndex()
-  return Object.keys(postsTable).map(slug => getBlogLink(slug))
+  const postsTable = await getPhotoIndex()
+  return Object.keys(postsTable).map(slug => getPostLink('photo', slug))
 }
 
 const listTypes = new Set(['bulleted_list', 'numbered_list'])

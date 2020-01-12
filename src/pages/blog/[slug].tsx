@@ -9,7 +9,7 @@ import { textBlock } from '../../lib/notion/renderers'
 import getPageData from '../../lib/notion/getPageData'
 import getBlogIndex from '../../lib/notion/getBlogIndex'
 import getNotionUsers from '../../lib/notion/getNotionUsers'
-import { getBlogLink, getDateStr } from '../../lib/blog-helpers'
+import { getPostLink, getDateStr } from '../../lib/blog-helpers'
 
 // Get the data for each blog post
 export async function unstable_getStaticProps({ params: { slug } }) {
@@ -43,7 +43,7 @@ export async function unstable_getStaticProps({ params: { slug } }) {
 // Return our list of blog posts to prerender
 export async function unstable_getStaticPaths() {
   const postsTable = await getBlogIndex()
-  return Object.keys(postsTable).map(slug => getBlogLink(slug))
+  return Object.keys(postsTable).map(slug => getPostLink('blog', slug))
 }
 
 const listTypes = new Set(['bulleted_list', 'numbered_list'])

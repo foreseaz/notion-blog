@@ -32,7 +32,7 @@ export default async function getBlogIndex(previews = true) {
       const tableBlock = values(data.recordMap.block).find(
         (block: any) =>
           block.value.type === 'collection_view' &&
-          block.value.id === '81e8f879-a485-4c5b-8075-e9ae15d99756' // hack for two collection_view
+          block.value.id === '2c462348-3baf-46a2-8121-1e93aa9ba002' // hack for two collection_view
       )
 
       postsTable = await getTableData(tableBlock, true)

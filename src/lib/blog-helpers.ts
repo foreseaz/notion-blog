@@ -1,5 +1,5 @@
-export const getBlogLink = (slug: string) => {
-  return `/blog/${slug}`
+export const getPostLink = (path: string, slug: string) => {
+  return `/${path}/${slug}`
 }
 
 export const getDateStr = date => {
