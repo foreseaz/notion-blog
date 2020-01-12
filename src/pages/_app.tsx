@@ -5,8 +5,6 @@ export default ({ Component, pageProps }) => (
   <>
     <Component {...pageProps} />
 
-    <footer>
-      <span>social btns here</span>
-    </footer>
+    <footer></footer>
   </>
 )
