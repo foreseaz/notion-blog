@@ -13,6 +13,7 @@ export async function unstable_getStaticProps() {
   const postsTable = await getPhotoIndex()
 
   const authorsToGet: Set<string> = new Set()
+  console.log('-----------------', postsTable)
   const posts: any[] = Object.keys(postsTable)
     .map(slug => {
       const post = postsTable[slug]
@@ -20,20 +21,12 @@ export async function unstable_getStaticProps() {
       if (!postIsReady(post)) {
         return null
       }
-      post.Authors = post.Authors || []
-      for (const author of post.Authors) {
-        authorsToGet.add(author)
-      }
+
       return post
     })
     .filter(Boolean)
 
-  const { users } = await getNotionUsers([...authorsToGet])
-
-  posts.map(post => {
-    post.Authors = post.Authors.map(id => users[id].full_name)
-  })
-
+  console.log('--------------;', posts, posts[0].Preview)
   return {
     props: {
       posts,
@@ -56,22 +49,16 @@ export default ({ posts = [] }) => {
             <div className={blogStyles.postPreview} key={post.Slug}>
               <h3>
                 <Link href="/photo/[slug]" as={getPostLink('photo', post.Slug)}>
-                  <a>{post.Page}</a>
+                  <a>{post.Name}</a>
                 </Link>
               </h3>
-              {post.Authors.length > 0 && (
-                <div className="authors">By: {post.Authors.join(' ')}</div>
-              )}
               {post.Date && (
                 <div className="posted">Posted: {getDateStr(post.Date)}</div>
               )}
-              <p>
-                {(!post.preview || post.preview.length === 0) &&
-                  'No preview available'}
-                {(post.preview || []).map((block, idx) =>
-                  textBlock(block, true, `${post.Slug}${idx}`)
-                )}
-              </p>
+              <div>
+                {!post.Preview && 'No preview available'}
+                {!!post.Preview && <img src={post.Preview} />}
+              </div>
             </div>
           )
         })}

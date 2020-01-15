@@ -5,7 +5,8 @@ import { useRouter } from 'next/router'
 import styles from '../styles/header.module.css'
 
 const navItems: { label: string; page?: string; link?: string }[] = [
-  { label: 'Photos', page: '/' },
+  { label: 'Home', page: '/' },
+  { label: 'Photos', page: '/photo' },
   { label: 'Blog', page: '/blog' },
 ]
 
@@ -20,7 +21,7 @@ export default ({ titlePre = '' }) => {
         <title>{titlePre ? `${titlePre} |` : ''} foreseaz.com</title>
         <meta
           name="description"
-          content="An example Next.js site using Notion for the blog"
+          content="foreseaz.com using Next.js and Notion"
         />
         <meta name="og:title" content="foreseaz.com" />
         <meta property="og:image" content={ogImageUrl} />
