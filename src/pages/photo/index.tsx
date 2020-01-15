@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Header from '../../components/header'
 
-import blogStyles from '../../styles/blog.module.css'
+import photoStyles from '../../styles/photo.module.css'
 import sharedStyles from '../../styles/shared.module.css'
 
 import { getPostLink, getDateStr, postIsReady } from '../../lib/blog-helpers'
@@ -12,7 +12,6 @@ import getPhotoIndex from '../../lib/notion/getPhotoIndex'
 export async function unstable_getStaticProps() {
   const postsTable = await getPhotoIndex()
 
-  const authorsToGet: Set<string> = new Set()
   console.log('-----------------', postsTable)
   const posts: any[] = Object.keys(postsTable)
     .map(slug => {
@@ -38,35 +37,36 @@ export default ({ posts = [] }) => {
   return (
     <>
       <Header titlePre="Blog" />
-      <div className={`${sharedStyles.layout} ${blogStyles.blogIndex}`}>
+      <div className={`${sharedStyles.layout} ${photoStyles.blogIndex}`}>
         <h1>Foreseaz</h1>
         {posts.length === 0 && (
-          <p className={blogStyles.noPosts}>There are no posts yet</p>
+          <p className={photoStyles.noPosts}>There are no albums yet</p>
         )}
-        {posts.map(post => {
-          return (
-            <div className={blogStyles.postPreview} key={post.Slug}>
-              <h3>
+        <div className={photoStyles.grid}>
+          {posts.map(post => {
+            return (
+              <div className={photoStyles.cell} key={post.Slug}>
                 <Link href="/photo/[slug]" as={getPostLink('photo', post.Slug)}>
-                  <a>{post.Name}</a>
+                  <div className={photoStyles.preview}>
+                    {!post.Preview && 'No preview available'}
+                    {!!post.Preview && (
+                      <img
+                        src={`/api/asset?assetUrl=${encodeURIComponent(
+                          post.Preview as any
+                        )}&blockId=${post.id}`}
+                      />
+                    )}
+                  </div>
                 </Link>
-              </h3>
-              {post.Date && (
-                <div className="posted">Posted: {getDateStr(post.Date)}</div>
-              )}
-              <div>
-                {!post.Preview && 'No preview available'}
-                {!!post.Preview && (
-                  <img
-                    src={`/api/asset?assetUrl=${encodeURIComponent(
-                      post.Preview as any
-                    )}&blockId=${post.id}`}
-                  />
-                )}
+                <Link href="/photo/[slug]" as={getPostLink('photo', post.Slug)}>
+                  <p className={photoStyles.title}>
+                    <a>{post.Name}</a>
+                  </p>
+                </Link>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
     </>
   )
