@@ -26,7 +26,6 @@ export async function unstable_getStaticProps() {
     })
     .filter(Boolean)
 
-  console.log('--------------;', posts, posts[0].Preview)
   return {
     props: {
       posts,
@@ -57,7 +56,13 @@ export default ({ posts = [] }) => {
               )}
               <div>
                 {!post.Preview && 'No preview available'}
-                {!!post.Preview && <img src={post.Preview} />}
+                {!!post.Preview && (
+                  <img
+                    src={`/api/asset?assetUrl=${encodeURIComponent(
+                      post.Preview as any
+                    )}&blockId=${post.id}`}
+                  />
+                )}
               </div>
             </div>
           )
